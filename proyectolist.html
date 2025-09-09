@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Frases bonitas — Botón Pow</title>
+<style>
+    :root{
+    --bg:#ffd6e8;
+    --bubble:#fff;
+    --accent:#ff4da6;
+    --text:#2b2b2b;
+    --shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Roboto, Arial; background:var(--bg); color:var(--text);}
+    .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;}
+    .card{width:100%;max-width:620px;background:transparent;border-radius:18px;padding:18px;box-sizing:border-box;text-align:center;}
+    h1{margin:6px 0 14px 0;color:#b30b67;font-size:20px;}
+    .messages{display:flex;flex-direction:column;gap:10px;align-items:flex-start;max-height:60vh;overflow:auto;padding:12px;}
+    .msg{
+      background:var(--bubble);
+      padding:10px 14px;border-radius:14px;box-shadow:var(--shadow);
+      max-width:85%;line-height:1.3;font-size:15px;color:var(--text);
+      transform-origin:left center; animation:pop .28s ease;
+    }
+    .intro{font-weight:600;background:linear-gradient(180deg,#fff 0%, #ffeeff 100%);}
+    @keyframes pop{ from{opacity:0; transform: translateY(6px) scale(0.98)} to{opacity:1; transform:none} }
+
+    /* Controls row */
+    .controls{display:flex;gap:12px;justify-content:center;margin-top:14px;flex-wrap:wrap;}
+    .btn {
+      border:0;padding:12px 16px;border-radius:12px;background:linear-gradient(180deg, #ff78b3, #ff3f92);
+      color:white;font-weight:700;cursor:pointer;box-shadow: 0 8px 20px rgba(195,30,120,0.18);
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .btn.ghost{background:transparent;color:var(--accent);border:2px solid rgba(255,77,166,0.16);box-shadow:none;font-weight:600}
+
+    /* Pow (poop) button */
+    .pow-btn{
+      width:110px;height:110px;border-radius:50%;
+      background: radial-gradient(circle at center, #fff 0%, #ffe6f2 100%);
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;box-shadow: 0 18px 42px rgba(0,0,0,0.15);
+      border:6px solid rgba(255,255,255,0.6);
+      transition: transform .18s ease, box-shadow .18s ease;
+      font-size:60px;
+    }
+    .pow-btn:active{ transform: translateY(4px) scale(.96); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+
+    .pow-label{margin-top:8px;font-size:13px;color:#8a0b5e;font-weight:700}
+
+    /* hover bounce */
+    .pow-btn:hover { transform: scale(1.08) rotate(-3deg); }
+
+    @media (max-width:520px){
+      .pow-btn{width:90px;height:90px;font-size:48px}
+      .btn{padding:10px 14px}
+      .card{padding:12px}
+    }
+</style>
+</head>
+<body>
+    <div class="wrap">
+    <div class="card">
+        <h1>feliz cumpleaños mi vida </h1>
+
+        <div class="messages" id="messages" aria-live="polite"></div>
+
+        <div style="display:flex;flex-direction:column;align-items:center;margin-top:18px">
+        <div class="pow-btn" id="flowerBtn" title="Pulsar para recibir frase">
+            <!-- Emoji poop -->
+            💩
+        </div>
+        <div class="pow-label">presiona la caquita negrucha</div>
+
+        <div class="controls">
+            <button class="btn ghost" id="resetBtn">Reiniciar</button>
+            <button class="btn" id="autoBtn">todas tus frasesitas seguidas mi mona</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+<script>
+    const messagesEl = document.getElementById('messages');
+    const btn = document.getElementById('flowerBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const autoBtn = document.getElementById('autoBtn');
+
+    const intro = "para mi cumpleañera:3";
+    const frases = [
+    "cada dia que te veo es un placer inmenso",
+    "un minuto a tu lado es mas que mil al lado de cualquier otra",
+    "mi corazon late dia y noche por tenerte siempre a mi lado ",
+    "tu mi negra hermosa eres lo mejor",
+    "mi felicidad se puede encontrar en cualquier lado serca de ti",
+    "en cada amanecer estoy pensando en ti ",
+    "tu mi tesoro invaluable",
+    "tu haces que mi felicidad este completa",
+    ];
+
+    let idx = 0;
+    let autoTimer = null;
+
+    function addMessage(text, isIntro=false){
+      const div = document.createElement('div');
+      div.className = 'msg' + (isIntro ? ' intro' : '');
+      div.textContent = text;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    btn.addEventListener('click', ()=>{
+      if(idx > frases.length) return;
+      if(idx === 0){
+          addMessage(intro, true);
+          idx++;
+          return;
+      }
+      const phraseIndex = idx - 1;
+      if(phraseIndex >= 0 && phraseIndex < frases.length){
+          addMessage(frases[phraseIndex]);
+          idx++;
+      }
+    });
+
+    resetBtn.addEventListener('click', ()=>{
+      idx = 0;
+      messagesEl.innerHTML = '';
+      stopAuto();
+    });
+
+    autoBtn.addEventListener('click', ()=>{
+      if(autoTimer){ stopAuto(); return; }
+      idx = 0;
+      messagesEl.innerHTML = '';
+      let step = 0;
+      addMessage(intro, true);
+      step = 1;
+      autoBtn.textContent = 'Parar';
+      autoTimer = setInterval(()=>{
+          if(step > frases.length){
+            stopAuto();
+            return;
+          }
+          addMessage(frases[step-1]);
+          step++;
+      }, 1100);
+    });
+
+    function stopAuto(){
+      if(autoTimer) clearInterval(autoTimer);
+      autoTimer = null;
+      autoBtn.textContent = 'presiona';
+    }
+
+    // mobile double tap
+    let lastTap = 0;
+    btn.addEventListener('touchend', (e)=>{
+      const now = Date.now();
+      if(now - lastTap < 300){ }
+      lastTap = now;
+    });
+
+    // accessibility
+    btn.setAttribute('tabindex','0');
+    btn.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key === ' ') btn.click(); });
+</script>
+</body>
+</html>
