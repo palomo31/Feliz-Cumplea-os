@@ -110,7 +110,7 @@
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    btn.addEventListener('click', ()=>{
+    btn.addEventListener('Click', ()=>{
       if(idx > frases.length) return;
       if(idx === 0){
           addMessage(intro, true);
@@ -124,13 +124,13 @@
       }
     });
 
-    resetBtn.addEventListener('click', ()=>{
+    resetBtn.addEventListener('Click', ()=>{
       idx = 0;
       messagesEl.innerHTML = '';
       stopAuto();
     });
 
-    autoBtn.addEventListener('click', ()=>{
+    autoBtn.addEventListener('Click', ()=>{
       if(autoTimer){ stopAuto(); return; }
       idx = 0;
       messagesEl.innerHTML = '';
@@ -151,7 +151,7 @@
     function stopAuto(){
       if(autoTimer) clearInterval(autoTimer);
       autoTimer = null;
-      autoBtn.textContent = 'presiona';
+      autoBtn.textContent = 'Presiona';
     }
 
     // mobile double tap
@@ -168,5 +168,6 @@
 </script>
 </body>
 </html>
+
 
 
