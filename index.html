@@ -110,7 +110,7 @@
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    btn.addEventListener('Click', ()=>{
+    btn.addEventListener('click', ()=>{
       if(idx > frases.length) return;
       if(idx === 0){
           addMessage(intro, true);
@@ -124,13 +124,13 @@
       }
     });
 
-    resetBtn.addEventListener('Click', ()=>{
+    resetBtn.addEventListener('click', ()=>{
       idx = 0;
       messagesEl.innerHTML = '';
       stopAuto();
     });
 
-    autoBtn.addEventListener('Click', ()=>{
+    autoBtn.addEventListener('click', ()=>{
       if(autoTimer){ stopAuto(); return; }
       idx = 0;
       messagesEl.innerHTML = '';
@@ -168,6 +168,7 @@
 </script>
 </body>
 </html>
+
 
 
 
